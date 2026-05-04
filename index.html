@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Advvia — Software jurídico para advogados brasileiros</title>
+<meta name="description" content="Organize seus casos, processos, prazos e documentos. Compartilhe com seu cliente em tempo real. 14 dias grátis, sem cartão de crédito.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;1,300&display=swap" rel="stylesheet">
+<style>
+/* ─── Reset ─────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Source Sans 3', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #1c2730;
+  background: #fafbfc;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+a { color: inherit; text-decoration: none; }
+button { cursor: pointer; font-family: inherit; }
+ul { list-style: none; }
+img { display: block; max-width: 100%; }
+
+/* ─── Tokens ─────────────────────────────────────────────────────────── */
+:root {
+  --primary:       #1a3a5c;
+  --primary-hover: #2a5a8c;
+  --primary-tint:  #e8f1f8;
+  --accent:        #c46000;
+  --accent-tint:   #f7ede4;
+  --success:       #1a6040;
+  --success-tint:  #e8f4ee;
+  --archive:       #4a1a7a;
+  --archive-tint:  #f0e8f9;
+  --muted:         #5a6470;
+  --border:        #c8d8e8;
+  --border-lt:     #e6ecf2;
+  --surface:       #fff;
+  --bg:            #fafbfc;
+  --fg:            #1c2730;
+  --fg-2:          #2c3840;
+  --fg-3:          #5a6470;
+}
+
+/* ─── Layout ─────────────────────────────────────────────────────────── */
+.wrap { max-width: 1240px; margin: 0 auto; padding: 0 24px; }
+
+/* ─── NAV ────────────────────────────────────────────────────────────── */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(255,255,255,.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1.5px solid var(--border);
+}
+.nav-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex-shrink: 0;
+  text-decoration: none;
+}
+.logo-text {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-style: italic;
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--primary);
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+.nav-links {
+  display: flex;
+  gap: 22px;
+  flex: 1;
+}
+.nav-links a {
+  font-size: 14px;
+  font-weight: 500;
+  color: #3a4a5a;
+  transition: color .15s;
+}
+.nav-links a:hover { color: var(--primary); }
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.nav-right .nav-login {
+  font-size: 14px;
+  font-weight: 500;
+  color: #3a4a5a;
+  transition: color .15s;
+}
+.nav-right .nav-login:hover { color: var(--primary); }
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  padding: 4px;
+  margin-left: auto;
+}
+.hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: #3a4a5a;
+  border-radius: 2px;
+  transition: transform .2s, opacity .2s;
+}
+.mobile-nav {
+  display: none;
+  flex-direction: column;
+  background: #fff;
+  border-top: 1.5px solid var(--border);
+  padding: 16px 24px 20px;
+  gap: 14px;
+}
+.mobile-nav a {
+  font-size: 15px;
+  font-weight: 500;
+  color: #3a4a5a;
+}
+.mobile-nav.open { display: flex; }
+
+/* ─── Buttons ────────────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .02em;
+  transition: background .15s, color .15s, box-shadow .15s, border-color .15s;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.btn-sm        { padding: 8px 16px; font-size: 13px; }
+.btn-lg        { padding: 14px 28px; font-size: 15px; }
+.btn-primary   { background: var(--primary); color: #fff; }
+.btn-primary:hover { background: var(--primary-hover); }
+.btn-primary-lg { background: var(--primary); color: #fff; padding: 14px 28px; font-size: 15px; box-shadow: 0 4px 14px rgba(26,58,92,.18); }
+.btn-primary-lg:hover { background: var(--primary-hover); }
+.btn-ghost-lg  { background: transparent; color: var(--primary); border: 1.5px solid var(--primary); padding: 13px 26px; font-size: 15px; }
+.btn-ghost-lg:hover { background: var(--primary-tint); }
+.btn-inverse-lg { background: #fff; color: var(--primary); padding: 14px 28px; font-size: 15px; }
+.btn-inverse-lg:hover { background: #f0f4f8; }
+.btn-ghost-light-lg { background: transparent; color: #fff; border: 1.5px solid rgba(255,255,255,.35); padding: 13px 26px; font-size: 15px; }
+.btn-ghost-light-lg:hover { background: rgba(255,255,255,.1); }
+
+/* ─── Kicker labels ──────────────────────────────────────────────────── */
+.kicker {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+.kicker-muted {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.6);
+}
+
+/* ─── Section head ───────────────────────────────────────────────────── */
+.sec-head {
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto 56px;
+  padding: 0 8px;
+}
+.sec-head h2 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(32px, 4vw, 44px);
+  font-weight: 700;
+  color: #1c2730;
+  line-height: 1.15;
+  letter-spacing: -.015em;
+  margin: 12px 0 14px;
+}
+.sec-head p {
+  font-size: 17px;
+  font-weight: 300;
+  color: var(--fg-2);
+  line-height: 1.65;
+}
+
+/* ─── HERO ───────────────────────────────────────────────────────────── */
+.hero { padding: 96px 24px 116px; }
+.hero-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0,1fr) minmax(0,1.05fr);
+  gap: 64px;
+  align-items: center;
+}
+.hero-left { display: flex; flex-direction: column; gap: 22px; }
+.hero-h1 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(42px, 5vw, 68px);
+  font-weight: 700;
+  color: #1c2730;
+  line-height: 1.05;
+  letter-spacing: -.02em;
+}
+.hero-h1 em { font-style: italic; color: var(--primary); }
+.hero-lead {
+  font-size: 18px;
+  font-weight: 300;
+  color: var(--fg-2);
+  line-height: 1.65;
+  max-width: 540px;
+}
+.cta-row { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+.proof { display: flex; gap: 20px; flex-wrap: wrap; }
+.proof-item {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--fg-3);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.proof-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--primary);
+  flex-shrink: 0;
+}
+
+/* ─── Hero mockup ────────────────────────────────────────────────────── */
+.hero-right {
+  transform: perspective(1600px) rotateY(-3deg) rotateX(2deg);
+  transform-origin: left center;
+}
+.mockup {
+  background: #fff;
+  border-radius: 12px;
+  border: 1.5px solid var(--border);
+  box-shadow: 0 24px 60px rgba(20,40,60,.18), 0 8px 18px rgba(20,40,60,.08);
+  overflow: hidden;
+}
+.m-header {
+  background: var(--primary);
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.m-logo { display: flex; align-items: center; gap: 7px; flex-shrink: 0; }
+.m-logo-text {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-style: italic;
+  font-size: 15px;
+  color: rgba(255,255,255,.88);
+  line-height: 1;
+}
+.m-sep { color: rgba(255,255,255,.25); font-size: 16px; flex-shrink: 0; }
+.m-case { flex: 1; min-width: 0; }
+.m-case-name {
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.m-case-sub { color: rgba(255,255,255,.55); font-size: 11px; }
+.m-avatar {
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.18);
+  border: 1.5px solid rgba(255,255,255,.35);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.m-subnav {
+  background: #fff;
+  padding: 0 18px;
+  border-bottom: 1.5px solid var(--border);
+  display: flex;
+  gap: 4px;
+  height: 36px;
+  align-items: center;
+}
+.m-tab { padding: 8px 10px; font-size: 11px; font-weight: 500; color: var(--fg-3); }
+.m-tab.active { font-weight: 700; color: var(--primary); border-bottom: 2px solid var(--primary); }
+.m-filters {
+  background: #fff;
+  padding: 8px 18px;
+  border-bottom: 1.5px solid var(--border);
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.m-filter-lbl { font-size: 9px; font-weight: 700; letter-spacing: .18em; color: var(--fg-3); }
+.m-chip-on {
+  background: var(--primary); color: #fff;
+  font-size: 10px; font-weight: 700;
+  padding: 3px 9px; border-radius: 16px;
+}
+.m-chip {
+  border: 1.5px solid var(--border); color: #3a4a5a;
+  font-size: 10px; font-weight: 500;
+  padding: 3px 9px; border-radius: 16px;
+}
+.m-events { padding: 20px 22px 26px; background: var(--bg); }
+.m-events-lbl {
+  font-size: 9px; font-weight: 700; letter-spacing: .24em; text-transform: uppercase;
+  color: var(--fg-3); margin-bottom: 14px;
+}
+.ev { display: grid; grid-template-columns: 52px 18px 1fr; margin-bottom: 14px; }
+.ev:last-child { margin-bottom: 0; }
+.ev-date {}
+.ev-day {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 22px; font-weight: 700; color: var(--primary); line-height: 1;
+}
+.ev-mon { font-size: 9px; font-weight: 700; letter-spacing: .14em; color: var(--fg-3); margin-top: 2px; }
+.ev-line { position: relative; display: flex; justify-content: center; }
+.ev-dot {
+  width: 9px; height: 9px; border-radius: 50%;
+  margin-top: 6px; border: 2px solid var(--bg);
+  position: relative; z-index: 1;
+}
+.ev-line-bar {
+  position: absolute;
+  top: 14px; bottom: -14px;
+  width: 1.5px; background: var(--border);
+}
+.ev-card {
+  background: #fff;
+  border: 1.5px solid var(--border);
+  border-radius: 6px;
+  padding: 10px 12px;
+}
+.ev-card.hi { border-color: #c0392b; box-shadow: 0 2px 12px rgba(192,57,43,.12); }
+.ev-tags { display: flex; gap: 5px; margin-bottom: 5px; }
+.ev-tag {
+  font-size: 9px; font-weight: 700;
+  padding: 1px 6px; border-radius: 3px;
+  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+  letter-spacing: .04em;
+}
+.ev-tag-plain { letter-spacing: .06em; font-family: inherit; }
+.ev-title { font-size: 12px; font-weight: 600; color: #1c2730; line-height: 1.3; margin-bottom: 3px; }
+.ev-desc  { font-size: 11px; font-weight: 300; color: var(--fg-3); line-height: 1.5; }
+
+/* ─── PRODUCT section ────────────────────────────────────────────────── */
+.sec-product {
+  padding: 110px 24px 80px;
+  background: #fff;
+  border-top: 1.5px solid var(--border-lt);
+  border-bottom: 1.5px solid var(--border-lt);
+}
+.product-card {
+  background: #fff;
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 12px 36px rgba(20,40,60,.06);
+}
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+.surface-tile {
+  background: var(--bg);
+  border: 1.5px solid var(--border-lt);
+  border-radius: 8px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.surface-icon {
+  width: 36px; height: 36px;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+}
+.surface-name {
+  font-size: 11px; font-weight: 700;
+  letter-spacing: .2em; text-transform: uppercase;
+}
+.surface-sample {
+  font-size: 12px; font-weight: 300; color: var(--fg-3);
+  margin-top: 4px;
+  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+}
+.product-caption {
+  text-align: center;
+  margin-top: 18px;
+  font-size: 13px; font-weight: 300; font-style: italic; color: var(--fg-3);
+}
+
+/* ─── FEATURES section ───────────────────────────────────────────────── */
+.sec-features { padding: 110px 24px; }
+.feat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+.feat-card {
+  background: #fff;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 28px 28px 26px;
+  display: flex; flex-direction: column; gap: 14px;
+}
+.feat-icon {
+  width: 44px; height: 44px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+}
+.feat-kicker {
+  font-size: 11px; font-weight: 700;
+  letter-spacing: .22em; text-transform: uppercase;
+}
+.feat-title { font-size: 20px; font-weight: 600; color: #1c2730; line-height: 1.3; }
+.feat-desc  { font-size: 15px; font-weight: 300; color: var(--fg-2); line-height: 1.6; }
+
+/* ─── HOW section ────────────────────────────────────────────────────── */
+.sec-how {
+  padding: 110px 24px;
+  background: #fff;
+  border-top: 1.5px solid var(--border-lt);
+  border-bottom: 1.5px solid var(--border-lt);
+}
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 28px;
+  margin-top: 20px;
+}
+.step-num {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 44px; font-weight: 700;
+  color: var(--primary); line-height: 1;
+  letter-spacing: -.02em; margin-bottom: 12px;
+}
+.step-title { font-size: 18px; font-weight: 600; color: #1c2730; margin-bottom: 8px; }
+.step-desc  { font-size: 15px; font-weight: 300; color: var(--fg-2); line-height: 1.6; }
+
+/* ─── PRICING ────────────────────────────────────────────────────────── */
+.sec-pricing { padding: 110px 24px; }
+.price-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  align-items: stretch;
+}
+.price-card {
+  background: #fff;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 32px 28px 30px;
+  display: flex; flex-direction: column; gap: 18px;
+  position: relative;
+}
+.price-card.featured {
+  background: var(--primary);
+  border-color: var(--primary);
+  box-shadow: 0 12px 36px rgba(26,58,92,.18);
+}
+.price-badge {
+  position: absolute; top: -10px; right: 24px;
+  background: var(--accent); color: #fff;
+  font-size: 10px; font-weight: 700; letter-spacing: .2em;
+  padding: 5px 10px; border-radius: 4px; text-transform: uppercase;
+}
+.price-tier {
+  font-size: 11px; font-weight: 700;
+  letter-spacing: .24em; text-transform: uppercase;
+  color: var(--fg-3);
+}
+.price-card.featured .price-tier { color: rgba(255,255,255,.7); }
+.price-amount {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 40px; font-weight: 700;
+  color: var(--primary); line-height: 1; letter-spacing: -.01em;
+}
+.price-card.featured .price-amount { color: #fff; }
+.price-period { font-size: 14px; font-weight: 300; color: var(--fg-3); margin-left: 6px; }
+.price-card.featured .price-period { color: rgba(255,255,255,.65); }
+.price-desc { font-size: 15px; font-weight: 300; color: var(--fg-2); line-height: 1.5; }
+.price-card.featured .price-desc { color: rgba(255,255,255,.8); }
+.price-sep { border-top: 1.5px solid var(--border-lt); }
+.price-card.featured .price-sep { border-color: rgba(255,255,255,.18); }
+.price-feats { display: flex; flex-direction: column; gap: 10px; flex: 1; }
+.price-feat {
+  font-size: 14px; font-weight: 300; color: var(--fg-2);
+  display: flex; gap: 10px; align-items: flex-start;
+}
+.price-card.featured .price-feat { color: rgba(255,255,255,.85); }
+.price-check { color: var(--primary); flex-shrink: 0; margin-top: 2px; }
+.price-card.featured .price-check { color: #fff; }
+.price-cta {
+  padding: 12px 18px; font-size: 14px; font-weight: 600;
+  letter-spacing: .04em; border-radius: 6px; border: 1.5px solid var(--primary);
+  background: var(--primary); color: #fff;
+  transition: opacity .15s;
+}
+.price-cta:hover { opacity: .88; }
+.price-card.featured .price-cta {
+  background: #fff; color: var(--primary); border: none;
+}
+.price-cta-outline {
+  background: transparent; color: var(--primary); border-color: var(--primary);
+}
+
+/* ─── SECURITY ───────────────────────────────────────────────────────── */
+.sec-security {
+  padding: 110px 24px;
+  background: #fff;
+  border-top: 1.5px solid var(--border-lt);
+}
+.sec-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 48px;
+  align-items: center;
+}
+.sec-h2 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(32px, 4vw, 44px); font-weight: 700;
+  color: #1c2730; line-height: 1.15; letter-spacing: -.015em;
+  margin: 12px 0 14px;
+}
+.sec-lead { font-size: 17px; font-weight: 300; color: var(--fg-2); line-height: 1.65; }
+.sec-list {}
+.sec-item {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border-lt);
+  font-size: 15px; font-weight: 300; color: var(--fg-2);
+}
+.sec-item:last-child { border-bottom: none; }
+.sec-item svg { flex-shrink: 0; margin-top: 2px; }
+
+/* ─── FINAL CTA ──────────────────────────────────────────────────────── */
+.sec-cta {
+  background: var(--primary);
+  padding: 110px 24px;
+  color: #fff;
+}
+.sec-cta-inner {
+  max-width: 800px; margin: 0 auto;
+  text-align: center;
+  display: flex; flex-direction: column; align-items: center; gap: 18px;
+  padding: 0 8px;
+}
+.cta-h2 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(28px, 4vw, 48px); font-weight: 700;
+  color: #fff; line-height: 1.15; letter-spacing: -.015em;
+}
+.cta-lead { font-size: 17px; font-weight: 300; color: rgba(255,255,255,.78); line-height: 1.6; }
+
+/* ─── FOOTER ─────────────────────────────────────────────────────────── */
+footer {
+  background: var(--bg);
+  padding: 60px 24px 30px;
+  border-top: 1.5px solid var(--border);
+}
+.foot-inner { max-width: 1240px; margin: 0 auto; }
+.foot-top {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 40px;
+  padding-bottom: 40px;
+}
+.foot-logo-area {}
+.foot-tag {
+  font-size: 14px; font-weight: 300; color: var(--fg-3);
+  max-width: 320px; margin-top: 14px; line-height: 1.6;
+}
+.foot-col {}
+.foot-col-title {
+  font-size: 11px; font-weight: 700;
+  letter-spacing: .22em; text-transform: uppercase;
+  color: var(--fg-3); margin-bottom: 14px;
+}
+.foot-col ul { display: flex; flex-direction: column; gap: 9px; }
+.foot-col a {
+  font-size: 14px; font-weight: 300; color: var(--fg-2);
+  transition: color .15s;
+}
+.foot-col a:hover { color: var(--primary); }
+.foot-bot {
+  border-top: 1.5px solid var(--border-lt);
+  padding-top: 24px;
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+  font-size: 12px; color: var(--fg-3); font-weight: 300;
+}
+
+/* ─── Responsive ─────────────────────────────────────────────────────── */
+@media (max-width: 960px) {
+  .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+  .hero-right { display: none; }
+  .product-grid { grid-template-columns: 1fr 1fr; }
+  .hamburger { display: flex; }
+  .nav-links, .nav-right { display: none; }
+}
+@media (max-width: 600px) {
+  .hero { padding: 64px 24px 72px; }
+  .sec-product, .sec-features, .sec-how, .sec-pricing, .sec-security, .sec-cta { padding: 72px 24px; }
+  .product-grid { grid-template-columns: 1fr; }
+  .cta-row { flex-direction: column; align-items: stretch; }
+  .cta-row .btn { text-align: center; }
+  .proof { flex-direction: column; gap: 10px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════════════ NAV -->
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#" class="logo" aria-label="Advvia — página inicial">
+      <svg width="24" height="26" viewBox="-90 -120 180 182" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M -90 60 L 0 -100 L 90 60" fill="none" stroke="#1a3a5c" stroke-width="16" stroke-linejoin="round" stroke-linecap="round"/>
+        <circle cx="0" cy="-100" r="22" fill="#c46000"/>
+      </svg>
+      <span class="logo-text">advvia</span>
+    </a>
+
+    <div class="nav-links">
+      <a href="#produto">Produto</a>
+      <a href="#como-funciona">Como funciona</a>
+      <a href="#precos">Preços</a>
+      <a href="#seguranca">Segurança</a>
+    </div>
+
+    <div class="nav-right">
+      <a href="https://app.advvia.com.br/login" class="nav-login">Entrar</a>
+      <a href="https://app.advvia.com.br/cadastro" class="btn btn-primary btn-sm">Começar agora</a>
+    </div>
+
+    <button class="hamburger" id="hamburger" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobile-nav">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <div class="mobile-nav" id="mobile-nav" role="navigation" aria-label="Menu mobile">
+    <a href="#produto">Produto</a>
+    <a href="#como-funciona">Como funciona</a>
+    <a href="#precos">Preços</a>
+    <a href="#seguranca">Segurança</a>
+    <a href="https://app.advvia.com.br/login">Entrar</a>
+    <a href="https://app.advvia.com.br/cadastro" class="btn btn-primary btn-sm" style="align-self:flex-start;margin-top:4px">Começar agora</a>
+  </div>
+</header>
+
+
+<!-- ══════════════════════════════════════════════════════════════════ HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="kicker">SOFTWARE JURÍDICO BRASILEIRO</div>
+
+      <h1 class="hero-h1">
+        Organização e<br>
+        <em>comunicação inteligente</em><br>
+        entre advogado e cliente.
+      </h1>
+
+      <p class="hero-lead">
+        Coloque em ordem o caos de planilhas, e-mails sem fim e mensagens de WhatsApp aleatórias.
+        Seu cliente terá visão clara de todos os processos, ações, atividades e documentação do caso —
+        não importa quantos processos estejam tramitando ao mesmo tempo.
+      </p>
+
+      <div class="cta-row">
+        <a href="https://app.advvia.com.br/cadastro" class="btn btn-primary-lg">Começar agora</a>
+        <a href="#produto" class="btn btn-ghost-lg">Ver demonstração →</a>
+      </div>
+
+      <div class="proof">
+        <span class="proof-item"><span class="proof-dot"></span> Sem cartão de crédito</span>
+        <span class="proof-item"><span class="proof-dot"></span> 14 dias grátis</span>
+        <span class="proof-item"><span class="proof-dot"></span> Hospedagem no Brasil</span>
+      </div>
+    </div>
+
+    <!-- ─── Mockup do produto ─── -->
+    <div class="hero-right" aria-hidden="true">
+      <div class="mockup">
+        <div class="m-header">
+          <div class="m-logo">
+            <svg width="18" height="20" viewBox="-90 -120 180 182" xmlns="http://www.w3.org/2000/svg">
+              <path d="M -90 60 L 0 -100 L 90 60" fill="none" stroke="rgba(255,255,255,.8)" stroke-width="16" stroke-linejoin="round" stroke-linecap="round"/>
+              <circle cx="0" cy="-100" r="22" fill="rgba(255,255,255,.65)"/>
+            </svg>
+            <span class="m-logo-text">advvia</span>
+          </div>
+          <span class="m-sep">|</span>
+          <div class="m-case">
+            <div class="m-case-name">Caso Lucas Fontes Teles Peixoto</div>
+            <div class="m-case-sub">Medida cautelar · 4ª Câmara Cível</div>
+          </div>
+          <div class="m-avatar">B</div>
+        </div>
+
+        <div class="m-subnav">
+          <span class="m-tab active">Timeline</span>
+          <span class="m-tab">Pendências</span>
+          <span class="m-tab">Processos</span>
+          <span class="m-tab">Arquivos</span>
+        </div>
+
+        <div class="m-filters">
+          <span class="m-filter-lbl">FILTRAR:</span>
+          <span class="m-chip-on">Todos</span>
+          <span class="m-chip">Fatos</span>
+          <span class="m-chip">Processuais</span>
+        </div>
+
+        <div class="m-events">
+          <div class="m-events-lbl">EVENTOS</div>
+
+          <!-- EV-012 Audiência -->
+          <div class="ev">
+            <div class="ev-date">
+              <div class="ev-day">19</div>
+              <div class="ev-mon">MAR 2026</div>
+            </div>
+            <div class="ev-line">
+              <div class="ev-dot" style="background:#1a6040"></div>
+              <div class="ev-line-bar"></div>
+            </div>
+            <div class="ev-card">
+              <div class="ev-tags">
+                <span class="ev-tag" style="background:#e8f4ee;color:#1a6040">EV-012</span>
+                <span class="ev-tag ev-tag-plain" style="background:#e8f4ee;color:#1a6040">Audiência</span>
+              </div>
+              <div class="ev-title">Audiência de instrução e julgamento</div>
+              <div class="ev-desc">Designada pela 4ª Câmara. Oitiva das testemunhas.</div>
+            </div>
+          </div>
+
+          <!-- EV-011 Decisão (destaque) -->
+          <div class="ev">
+            <div class="ev-date">
+              <div class="ev-day">12</div>
+              <div class="ev-mon">MAR 2026</div>
+            </div>
+            <div class="ev-line">
+              <div class="ev-dot" style="background:#c0392b"></div>
+              <div class="ev-line-bar"></div>
+            </div>
+            <div class="ev-card hi">
+              <div class="ev-tags">
+                <span class="ev-tag" style="background:#fde8e6;color:#a93226">EV-011</span>
+                <span class="ev-tag ev-tag-plain" style="background:#fde8e6;color:#a93226">Decisão</span>
+              </div>
+              <div class="ev-title">Decisão cautelar deferida</div>
+              <div class="ev-desc">Suspensão do ato impugnado.</div>
+            </div>
+          </div>
+
+          <!-- EV-010 Fato -->
+          <div class="ev">
+            <div class="ev-date">
+              <div class="ev-day">04</div>
+              <div class="ev-mon">MAR 2026</div>
+            </div>
+            <div class="ev-line">
+              <div class="ev-dot" style="background:#1a3a5c"></div>
+            </div>
+            <div class="ev-card">
+              <div class="ev-tags">
+                <span class="ev-tag" style="background:#e8f1f8;color:#2a5a8c">EV-010</span>
+                <span class="ev-tag ev-tag-plain" style="background:#e8f1f8;color:#2a5a8c">Fato</span>
+              </div>
+              <div class="ev-title">Intimação recebida</div>
+              <div class="ev-desc">Prazo de 15 dias para manifestação.</div>
+            </div>
+          </div>
+
+        </div><!-- /m-events -->
+      </div><!-- /mockup -->
+    </div>
+  </div><!-- /hero-inner -->
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════════ PRODUTO -->
+<section id="produto" class="sec-product">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">O PRODUTO</div>
+      <h2>Quatro superfícies que conversam.</h2>
+      <p>Timeline, Pendências, Processos e Arquivos — não são abas soltas. Cada item criado em uma aparece, vinculado, nas outras.</p>
+    </div>
+
+    <div class="product-card">
+      <div class="product-grid">
+
+        <div class="surface-tile">
+          <div class="surface-icon" style="background:#e8f1f8;color:#1a3a5c">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+          </div>
+          <div>
+            <div class="surface-name" style="color:#1a3a5c">Timeline</div>
+            <div class="surface-sample">EV-012 · Audiência</div>
+          </div>
+        </div>
+
+        <div class="surface-tile">
+          <div class="surface-icon" style="background:#f7ede4;color:#c46000">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg>
+          </div>
+          <div>
+            <div class="surface-name" style="color:#c46000">Pendências</div>
+            <div class="surface-sample">PD-007 · Em andamento</div>
+          </div>
+        </div>
+
+        <div class="surface-tile">
+          <div class="surface-icon" style="background:#e8f4ee;color:#1a6040">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 4v16M5 8h14M5 8l-2 6h4zm14 0l-2 6h4zM8 21h8"/></svg>
+          </div>
+          <div>
+            <div class="surface-name" style="color:#1a6040">Processos</div>
+            <div class="surface-sample">PR-003 · 0700182-27</div>
+          </div>
+        </div>
+
+        <div class="surface-tile">
+          <div class="surface-icon" style="background:#f0e8f9;color:#4a1a7a">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/></svg>
+          </div>
+          <div>
+            <div class="surface-name" style="color:#4a1a7a">Arquivos</div>
+            <div class="surface-sample">42 documentos</div>
+          </div>
+        </div>
+
+      </div>
+      <p class="product-caption">Tudo conectado: clique em um evento e veja sua pendência, processo e arquivos vinculados.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════════ FUNCIONALIDADES -->
+<section id="funcionalidades" class="sec-features">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">FUNCIONALIDADES</div>
+      <h2>Na linguagem que seu cliente vai entender.</h2>
+    </div>
+
+    <div class="feat-grid">
+
+      <div class="feat-card">
+        <div class="feat-icon" style="background:#e8f1f8;color:#1a3a5c">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        </div>
+        <div class="feat-kicker" style="color:#1a3a5c">TIMELINE</div>
+        <h3 class="feat-title">Cronologia do caso</h3>
+        <p class="feat-desc">Tudo o que aconteceu no caso — fatos, decisões e movimentos — numa linha do tempo contínua, em ordem cronológica. Seu cliente entende sem precisar de explicação.</p>
+      </div>
+
+      <div class="feat-card">
+        <div class="feat-icon" style="background:#f7ede4;color:#c46000">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg>
+        </div>
+        <div class="feat-kicker" style="color:#c46000">PENDÊNCIAS</div>
+        <h3 class="feat-title">Tarefas com prazo e responsável</h3>
+        <p class="feat-desc">Cada ação necessária fica registrada com prazo, responsável e status. Nada cai no esquecimento, e o cliente vê o que está sendo feito.</p>
+      </div>
+
+      <div class="feat-card">
+        <div class="feat-icon" style="background:#e8f4ee;color:#1a6040">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 4v16M5 8h14M5 8l-2 6h4zm14 0l-2 6h4zM8 21h8"/></svg>
+        </div>
+        <div class="feat-kicker" style="color:#1a6040">PROCESSOS</div>
+        <h3 class="feat-title">Todos os tipos de processo, no mesmo lugar</h3>
+        <p class="feat-desc">Processos judiciais no padrão CNJ, administrativos, boletins de ocorrência, termos circunstanciados e muito mais — tudo centralizado, com vara, status e partes registradas.</p>
+      </div>
+
+      <div class="feat-card">
+        <div class="feat-icon" style="background:#f0e8f9;color:#4a1a7a">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/></svg>
+        </div>
+        <div class="feat-kicker" style="color:#4a1a7a">ARQUIVOS</div>
+        <h3 class="feat-title">Biblioteca de documentos do caso</h3>
+        <p class="feat-desc">Petições, decisões, procurações e documentos da parte, organizados e sempre acessíveis. Cada arquivo conectado ao evento que o gerou.</p>
+      </div>
+
+      <div class="feat-card">
+        <div class="feat-icon" style="background:#e8f1f8;color:#1a3a5c">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+        </div>
+        <div class="feat-kicker" style="color:#1a3a5c">STATUS REPORT</div>
+        <h3 class="feat-title">Resumo automático gerado por IA</h3>
+        <p class="feat-desc">A cada atualização, a Advvia gera automaticamente um resumo do caso em linguagem simples — pra você compartilhar com seu cliente sem precisar redigir.</p>
+      </div>
+
+      <div class="feat-card">
+        <div class="feat-icon" style="background:#e8f4ee;color:#1a6040">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+        </div>
+        <div class="feat-kicker" style="color:#1a6040">SEGURANÇA</div>
+        <h3 class="feat-title">Seus dados protegidos e em conformidade com a LGPD</h3>
+        <p class="feat-desc">Hospedagem no Brasil, criptografia de ponta a ponta e total conformidade com a LGPD. Você e seu cliente podem confiar que as informações do caso estão seguras.</p>
+      </div>
+
+      <div class="feat-card">
+        <div class="feat-icon" style="background:#f0e8f9;color:#4a1a7a">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg>
+        </div>
+        <div class="feat-kicker" style="color:#4a1a7a">INTEGRAÇÕES</div>
+        <h3 class="feat-title">Integração com outros sistemas</h3>
+        <p class="feat-desc">API completa para conectar com seu sistema de faturamento, agenda, assinatura digital ou qualquer outra ferramenta que você já usa.</p>
+      </div>
+
+      <div class="feat-card">
+        <div class="feat-icon" style="background:#f7ede4;color:#c46000">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="6" y="3" width="12" height="18" rx="2"/><path d="M11 18h2"/></svg>
+        </div>
+        <div class="feat-kicker" style="color:#c46000">ACESSO FÁCIL</div>
+        <h3 class="feat-title">Acesse de qualquer lugar, sem instalar nada</h3>
+        <p class="feat-desc">Funciona no computador, no celular e no tablet — pelo navegador, sem precisar baixar nenhum aplicativo. Você e seu cliente acessam de onde estiverem.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════════ COMO FUNCIONA -->
+<section id="como-funciona" class="sec-how">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">COMO FUNCIONA</div>
+      <h2>Do primeiro caso à audiência.</h2>
+    </div>
+
+    <div class="steps-grid">
+      <div>
+        <div class="step-num">01</div>
+        <h3 class="step-title">Crie o caso</h3>
+        <p class="step-desc">Nome, partes envolvidas, descrição. Em menos de um minuto.</p>
+      </div>
+      <div>
+        <div class="step-num">02</div>
+        <h3 class="step-title">Cadastre os processos</h3>
+        <p class="step-desc">Todos os processos vinculados ao caso: judiciais, administrativos, boletins de ocorrência e outros.</p>
+      </div>
+      <div>
+        <div class="step-num">03</div>
+        <h3 class="step-title">Adicione os eventos</h3>
+        <p class="step-desc">Cada fato e cada movimento processual entra com data e tipo — automaticamente em ordem cronológica.</p>
+      </div>
+      <div>
+        <div class="step-num">04</div>
+        <h3 class="step-title">Vincule peças e prazos</h3>
+        <p class="step-desc">Petições, decisões, pendências — tudo conectado ao evento certo, sem duplicar informação.</p>
+      </div>
+      <div>
+        <div class="step-num">05</div>
+        <h3 class="step-title">Compartilhe com seu cliente</h3>
+        <p class="step-desc">O cliente acessa a visão do caso em tempo real. A IA gera um resumo automático a cada atualização.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════════ PREÇOS -->
+<section id="precos" class="sec-pricing">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">PLANOS</div>
+      <h2>Preços diretos, sem surpresa.</h2>
+      <p>Cancele quando quiser. Migração de dados gratuita em todos os planos.</p>
+    </div>
+
+    <div class="price-grid">
+
+      <!-- SOLO -->
+      <div class="price-card">
+        <div class="price-tier">SOLO</div>
+        <div>
+          <span class="price-amount">R$ 49</span>
+          <span class="price-period">/ mês por usuário</span>
+        </div>
+        <p class="price-desc">Pra advogados autônomos.</p>
+        <div class="price-sep"></div>
+        <ul class="price-feats">
+          <li class="price-feat">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="price-check" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>
+            Até 25 casos ativos
+          </li>
+          <li class="price-feat">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="price-check" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>
+            Timeline completa
+          </li>
+          <li class="price-feat">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="price-check" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>
+            Pendências e arquivos
+          </li>
+          <li class="price-feat">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="price-check" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>
+            Suporte por email
+          </li>
+        </ul>
+        <button class="price-cta" onclick="window.location='https://app.advvia.com.br/cadastro'">Começar</button>
+      </div>
+
+      <!-- ESCRITÓRIO (featured) -->
+      <div class="price-card featured">
+        <span class="price-badge">Mais escolhido</span>
+        <div class="price-tier">ESCRITÓRIO</div>
+        <div>
+          <span class="price-amount">R$ 129</span>
+          <span class="price-period">/ mês por usuário</span>
+        </div>
+        <p class="price-desc">Pra times pequenos e médios.</p>
+        <div class="price-sep"></div>
+        <ul class="price-feats">
+          <li class="price-feat">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="price-check" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>
+            Casos ilimitados
+          </li>
+          <li class="price-feat">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="price-check" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>
+            Até 5 advogados
+          </li>
+          <li class="price-feat">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="price-check" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>
+            Permissões por caso
+          </li>
+          <li class="price-feat">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="price-check" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>
+            Histórico de auditoria
+          </li>
+          <li class="price-feat">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="price-check" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>
+            Suporte prioritário
+          </li>
+        </ul>
+        <button class="price-cta" onclick="window.location='https://app.advvia.com.br/cadastro'">Começar</button>
+      </div>
+
+      <!-- BANCA -->
+      <div class="price-card">
+        <div class="price-tier">BANCA</div>
+        <div>
+          <span class="price-amount" style="font-size:28px;letter-spacing:-.005em">Sob consulta</span>
+        </div>
+        <p class="price-desc">Pra escritórios grandes.</p>
+        <div class="price-sep"></div>
+        <ul class="price-feats">
+          <li class="price-feat">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="price-check" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>
+            Tudo do Escritório
+          </li>
+          <li class="price-feat">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="price-check" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>
+            Usuários ilimitados
+          </li>
+          <li class="price-feat">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="price-check" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>
+            SSO e LGPD assistida
+          </li>
+          <li class="price-feat">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="price-check" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>
+            SLA dedicado
+          </li>
+          <li class="price-feat">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="price-check" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>
+            On-boarding com gerente
+          </li>
+        </ul>
+        <button class="price-cta price-cta-outline">Falar com vendas</button>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════════ SEGURANÇA -->
+<section id="seguranca" class="sec-security">
+  <div class="wrap">
+    <div class="sec-row">
+      <div>
+        <div class="kicker">SEGURANÇA E LGPD</div>
+        <h2 class="sec-h2">Dados sob sigilo profissional.</h2>
+        <p class="sec-lead">
+          Hospedagem em servidores no Brasil. Criptografia em trânsito e em repouso.
+          DPO designado, registro de operações de tratamento, e atendimento direto
+          pra requisições de titulares.
+        </p>
+      </div>
+
+      <ul class="sec-list">
+        <li class="sec-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1a6040" stroke-width="2" aria-hidden="true"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          Hospedagem AWS São Paulo (sa-east-1)
+        </li>
+        <li class="sec-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1a6040" stroke-width="2" aria-hidden="true"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          TLS 1.3 + AES-256 em repouso
+        </li>
+        <li class="sec-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1a6040" stroke-width="2" aria-hidden="true"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          Backup diário com retenção de 30 dias
+        </li>
+        <li class="sec-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1a6040" stroke-width="2" aria-hidden="true"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          Logs de auditoria por usuário e por caso
+        </li>
+        <li class="sec-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1a6040" stroke-width="2" aria-hidden="true"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          Acordo de processamento de dados (DPA) sob solicitação
+        </li>
+        <li class="sec-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1a6040" stroke-width="2" aria-hidden="true"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          2FA obrigatório no plano Escritório+
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════════ CTA FINAL -->
+<section class="sec-cta">
+  <div class="sec-cta-inner">
+    <div class="kicker-muted">COMECE HOJE</div>
+    <h2 class="cta-h2">Seu próximo caso merece uma timeline.</h2>
+    <p class="cta-lead">14 dias grátis. Sem cartão de crédito. Migração assistida.</p>
+    <div class="cta-row" style="justify-content:center">
+      <a href="https://app.advvia.com.br/cadastro" class="btn btn-inverse-lg">Começar agora</a>
+      <a href="mailto:contato@advvia.com.br" class="btn btn-ghost-light-lg">Falar com vendas</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════════ FOOTER -->
+<footer>
+  <div class="foot-inner">
+    <div class="foot-top">
+      <div class="foot-logo-area">
+        <a href="#" class="logo" aria-label="Advvia">
+          <svg width="22" height="24" viewBox="-90 -120 180 182" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M -90 60 L 0 -100 L 90 60" fill="none" stroke="#1a3a5c" stroke-width="16" stroke-linejoin="round" stroke-linecap="round"/>
+            <circle cx="0" cy="-100" r="22" fill="#c46000"/>
+          </svg>
+          <span class="logo-text">advvia</span>
+        </a>
+        <p class="foot-tag">Software jurídico para advogados que leem cada linha do processo.</p>
+      </div>
+
+      <div class="foot-col">
+        <div class="foot-col-title">PRODUTO</div>
+        <ul>
+          <li><a href="#produto">Timeline</a></li>
+          <li><a href="#produto">Pendências</a></li>
+          <li><a href="#produto">Processos</a></li>
+          <li><a href="#produto">Arquivos</a></li>
+        </ul>
+      </div>
+
+      <div class="foot-col">
+        <div class="foot-col-title">EMPRESA</div>
+        <ul>
+          <li><a href="#">Sobre</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Carreiras</a></li>
+          <li><a href="mailto:contato@advvia.com.br">Contato</a></li>
+        </ul>
+      </div>
+
+      <div class="foot-col">
+        <div class="foot-col-title">LEGAL</div>
+        <ul>
+          <li><a href="#">Termos</a></li>
+          <li><a href="#">Privacidade</a></li>
+          <li><a href="#">LGPD</a></li>
+          <li><a href="#">DPA</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="foot-bot">
+      <span>© 2026 Advvia Tecnologia Jurídica Ltda · CNPJ 00.000.000/0001-00</span>
+      <span>São Paulo · Brasil</span>
+    </div>
+  </div>
+</footer>
+
+
+<script>
+(function () {
+  var btn = document.getElementById('hamburger');
+  var menu = document.getElementById('mobile-nav');
+  if (!btn || !menu) return;
+  btn.addEventListener('click', function () {
+    var open = menu.classList.toggle('open');
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  menu.querySelectorAll('a').forEach(function (a) {
+    a.addEventListener('click', function () {
+      menu.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
