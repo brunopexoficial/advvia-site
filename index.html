@@ -78,15 +78,7 @@ img { display: block; max-width: 100%; }
   flex-shrink: 0;
   text-decoration: none;
 }
-.logo-text {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-style: italic;
-  font-size: 22px;
-  font-weight: 400;
-  color: var(--primary);
-  line-height: 1;
-  letter-spacing: -0.01em;
-}
+.logo img { display: block; }
 .nav-links {
   display: flex;
   gap: 22px;
@@ -274,14 +266,8 @@ img { display: block; max-width: 100%; }
   align-items: center;
   gap: 10px;
 }
-.m-logo { display: flex; align-items: center; gap: 7px; flex-shrink: 0; }
-.m-logo-text {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-style: italic;
-  font-size: 15px;
-  color: rgba(255,255,255,.88);
-  line-height: 1;
-}
+.m-logo { display: flex; align-items: center; flex-shrink: 0; }
+.m-logo img { display: block; }
 .m-sep { color: rgba(255,255,255,.25); font-size: 16px; flex-shrink: 0; }
 .m-case { flex: 1; min-width: 0; }
 .m-case-name {
@@ -537,6 +523,13 @@ img { display: block; max-width: 100%; }
 .price-cta-outline {
   background: transparent; color: var(--primary); border-color: var(--primary);
 }
+.price-card-soon {
+  border-style: dashed;
+  border-color: var(--border);
+  background: var(--bg);
+}
+.price-feat-soon { color: var(--fg-3); }
+.price-check-soon { color: var(--fg-3); flex-shrink: 0; margin-top: 2px; }
 
 /* ─── SECURITY ───────────────────────────────────────────────────────── */
 .sec-security {
@@ -934,8 +927,8 @@ footer {
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg>
         </div>
         <div class="feat-kicker" style="color:#4a1a7a">INTEGRAÇÕES</div>
-        <h3 class="feat-title">Integração com outros sistemas</h3>
-        <p class="feat-desc">API completa para conectar com seu sistema de faturamento, agenda, assinatura digital ou qualquer outra ferramenta que você já usa.</p>
+        <h3 class="feat-title">Conecte com suas ferramentas</h3>
+        <p class="feat-desc">Webhooks para notificações em tempo real, API para integrações personalizadas e exportação de dados nos formatos mais comuns — você leva seus dados aonde precisar.</p>
       </div>
 
       <div class="feat-card">
@@ -957,7 +950,7 @@ footer {
   <div class="wrap">
     <div class="sec-head">
       <div class="kicker">COMO FUNCIONA</div>
-      <h2>Do primeiro caso à audiência.</h2>
+      <h2>Saia do <s style="color:var(--fg-3);text-decoration-color:var(--accent)">CAOS</s> e organize seu CASO.</h2>
     </div>
 
     <div class="steps-grid">
@@ -996,108 +989,82 @@ footer {
   <div class="wrap">
     <div class="sec-head">
       <div class="kicker">PLANOS</div>
-      <h2>Preços diretos, sem surpresa.</h2>
-      <p>Cancele quando quiser. Migração de dados gratuita em todos os planos.</p>
+      <h2>Comece gratuitamente.</h2>
+      <p>Sem cartão de crédito. Sem limite de tempo. Planos pagos em breve.</p>
     </div>
 
-    <div class="price-grid">
+    <div class="price-grid" style="grid-template-columns:repeat(auto-fill,minmax(320px,1fr));max-width:900px;margin:0 auto">
 
-      <!-- SOLO -->
-      <div class="price-card">
-        <div class="price-tier">SOLO</div>
+      <!-- BÁSICO (gratuito) -->
+      <div class="price-card featured">
+        <span class="price-badge">Disponível agora</span>
+        <div class="price-tier">BÁSICO</div>
         <div>
-          <span class="price-amount">R$ 49</span>
-          <span class="price-period">/ mês por usuário</span>
+          <span class="price-amount">Grátis</span>
         </div>
-        <p class="price-desc">Pra advogados autônomos.</p>
+        <p class="price-desc">Para começar a organizar seus casos hoje mesmo.</p>
         <div class="price-sep"></div>
         <ul class="price-feats">
           <li class="price-feat">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="price-check" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>
-            Até 25 casos ativos
+            Até 5 casos ativos
           </li>
           <li class="price-feat">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="price-check" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>
-            Timeline completa
+            Até 20 participantes no total — advogados, partes e interessados
           </li>
           <li class="price-feat">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="price-check" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>
-            Pendências e arquivos
+            Timeline, Pendências, Processos e Arquivos
+          </li>
+          <li class="price-feat">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="price-check" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>
+            Acesso pelo navegador — sem instalar nada
           </li>
           <li class="price-feat">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="price-check" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>
             Suporte por email
           </li>
         </ul>
-        <button class="price-cta" onclick="window.location='https://app.advvia.com.br/cadastro'">Começar</button>
+        <button class="price-cta" onclick="window.location='https://app.advvia.com.br/cadastro'">Criar conta gratuita</button>
       </div>
 
-      <!-- ESCRITÓRIO (featured) -->
-      <div class="price-card featured">
-        <span class="price-badge">Mais escolhido</span>
-        <div class="price-tier">ESCRITÓRIO</div>
-        <div>
-          <span class="price-amount">R$ 129</span>
-          <span class="price-period">/ mês por usuário</span>
+      <!-- EM BREVE -->
+      <div class="price-card price-card-soon">
+        <span class="price-badge" style="background:var(--fg-3)">Em breve</span>
+        <div class="price-tier">PLANOS PAGOS</div>
+        <div style="margin-top:4px">
+          <span class="price-amount" style="font-size:26px;color:var(--fg-3);letter-spacing:-.005em">Anunciando em breve</span>
         </div>
-        <p class="price-desc">Pra times pequenos e médios.</p>
+        <p class="price-desc">Estamos construindo os planos pagos. Cadastre-se para receber em primeira mão as novidades e grandes promoções de lançamento.</p>
         <div class="price-sep"></div>
         <ul class="price-feats">
-          <li class="price-feat">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="price-check" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>
+          <li class="price-feat price-feat-soon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="price-check-soon" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l2 2"/></svg>
             Casos ilimitados
           </li>
-          <li class="price-feat">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="price-check" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>
-            Até 5 advogados
+          <li class="price-feat price-feat-soon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="price-check-soon" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l2 2"/></svg>
+            Automação de movimentação processual
           </li>
-          <li class="price-feat">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="price-check" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>
-            Permissões por caso
+          <li class="price-feat price-feat-soon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="price-check-soon" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l2 2"/></svg>
+            Comunicação via WhatsApp
           </li>
-          <li class="price-feat">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="price-check" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>
-            Histórico de auditoria
+          <li class="price-feat price-feat-soon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="price-check-soon" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l2 2"/></svg>
+            Assistente inteligente com IA
           </li>
-          <li class="price-feat">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="price-check" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>
-            Suporte prioritário
+          <li class="price-feat price-feat-soon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="price-check-soon" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l2 2"/></svg>
+            Integração com Google Drive e OneDrive
           </li>
-        </ul>
-        <button class="price-cta" onclick="window.location='https://app.advvia.com.br/cadastro'">Começar</button>
-      </div>
-
-      <!-- BANCA -->
-      <div class="price-card">
-        <div class="price-tier">BANCA</div>
-        <div>
-          <span class="price-amount" style="font-size:28px;letter-spacing:-.005em">Sob consulta</span>
-        </div>
-        <p class="price-desc">Pra escritórios grandes.</p>
-        <div class="price-sep"></div>
-        <ul class="price-feats">
-          <li class="price-feat">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="price-check" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>
-            Tudo do Escritório
-          </li>
-          <li class="price-feat">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="price-check" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>
-            Usuários ilimitados
-          </li>
-          <li class="price-feat">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="price-check" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>
-            SSO e LGPD assistida
-          </li>
-          <li class="price-feat">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="price-check" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>
-            SLA dedicado
-          </li>
-          <li class="price-feat">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="price-check" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>
-            On-boarding com gerente
+          <li class="price-feat price-feat-soon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="price-check-soon" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l2 2"/></svg>
+            E muito mais...
           </li>
         </ul>
-        <button class="price-cta price-cta-outline">Falar com vendas</button>
+        <button class="price-cta price-cta-outline" onclick="window.location='https://app.advvia.com.br/cadastro'">Quero ser avisado primeiro</button>
       </div>
 
     </div>
@@ -1111,38 +1078,38 @@ footer {
     <div class="sec-row">
       <div>
         <div class="kicker">SEGURANÇA E LGPD</div>
-        <h2 class="sec-h2">Dados sob sigilo profissional.</h2>
+        <h2 class="sec-h2">Seus dados são seus. Ponto.</h2>
         <p class="sec-lead">
-          Hospedagem em servidores no Brasil. Criptografia em trânsito e em repouso.
-          DPO designado, registro de operações de tratamento, e atendimento direto
-          pra requisições de titulares.
+          Operamos em conformidade com a LGPD. Seus dados são usados exclusivamente
+          para as funcionalidades do Advvia — nunca vendemos, alugamos ou compartilhamos
+          suas informações com terceiros para qualquer finalidade.
         </p>
       </div>
 
       <ul class="sec-list">
         <li class="sec-item">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1a6040" stroke-width="2" aria-hidden="true"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-          Hospedagem AWS São Paulo (sa-east-1)
+          Hospedagem em servidores no Brasil
         </li>
         <li class="sec-item">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1a6040" stroke-width="2" aria-hidden="true"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-          TLS 1.3 + AES-256 em repouso
+          Dados trafegam sempre com criptografia (TLS)
         </li>
         <li class="sec-item">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1a6040" stroke-width="2" aria-hidden="true"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-          Backup diário com retenção de 30 dias
+          Conformidade com a Lei Geral de Proteção de Dados (LGPD)
         </li>
         <li class="sec-item">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1a6040" stroke-width="2" aria-hidden="true"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-          Logs de auditoria por usuário e por caso
+          Seus dados não são usados para treinar modelos de IA ou qualquer fim além do Advvia
         </li>
         <li class="sec-item">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1a6040" stroke-width="2" aria-hidden="true"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-          Acordo de processamento de dados (DPA) sob solicitação
+          Você pode solicitar a exclusão dos seus dados a qualquer momento
         </li>
         <li class="sec-item">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1a6040" stroke-width="2" aria-hidden="true"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-          2FA obrigatório no plano Escritório+
+          Acesso controlado por autenticação — cada usuário vê só o que lhe compete
         </li>
       </ul>
     </div>
