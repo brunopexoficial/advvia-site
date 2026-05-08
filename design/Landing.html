@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Advvia — Landing Page</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="brand/advvia-favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="colors_and_type.css">
+<meta name="ext-resource-dependency" content="brand/advvia-logo-horizontal-blue.svg" data-resource-id="logoBlue" />
+<meta name="ext-resource-dependency" content="brand/advvia-logo-horizontal-light.svg" data-resource-id="logoLight" />
+<style>
+  html, body { margin: 0; padding: 0; background: #f0eee9; height: 100%; }
+  body { font-family: 'Source Sans 3', sans-serif; }
+  #root { width: 100%; height: 100vh; }
+  *::-webkit-scrollbar { width: 10px; height: 10px; }
+  *::-webkit-scrollbar-thumb { background: #c8d8e8; border-radius: 6px; }
+</style>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<template id="__bundler_thumbnail" data-bg-color="#f0eee9">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#f0eee9"/>
+    <g transform="translate(600 400)">
+      <path d="M -90 60 L 0 -100 L 90 60 Z" fill="none" stroke="#1a3a5c" stroke-width="14" stroke-linejoin="round"/>
+      <circle cx="0" cy="-100" r="18" fill="#c46000"/>
+    </g>
+    <text x="600" y="640" font-family="Georgia, serif" font-size="48" fill="#1a3a5c" text-anchor="middle" font-style="italic">advvia</text>
+  </svg>
+</template>
+<body>
+<div id="root"></div>
+
+<script type="text/babel" src="design-canvas.jsx"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel" src="v1-sobria.jsx"></script>
+<script type="text/babel" src="v2-editorial.jsx"></script>
+<script type="text/babel" src="v3-bold.jsx"></script>
+
+<script type="text/babel">
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "accent": "verde",
+  "density": "comfortable",
+  "heroVariant": "mockup",
+  "showHero": true,
+  "showProduct": true,
+  "showFeatures": true,
+  "showHow": true,
+  "showPricing": true,
+  "showSecurity": true,
+  "showCta": true
+}/*EDITMODE-END*/;
+
+function App() {
+  const [tweaks, setTweak] = useTweaks(TWEAK_DEFAULTS);
+  const sections = {
+    hero: tweaks.showHero,
+    product: tweaks.showProduct,
+    features: tweaks.showFeatures,
+    how: tweaks.showHow,
+    pricing: tweaks.showPricing,
+    security: tweaks.showSecurity,
+    cta: tweaks.showCta,
+  };
+  const props = { density: tweaks.density, accent: tweaks.accent, heroVariant: tweaks.heroVariant, sections };
+
+  return (
+    <>
+      <DesignCanvas>
+        <DCSection id="v1" title="Variação 1 — Sóbria / Clean" subtitle="Fiel ao app: muito branco, navy como acento, tipografia restrita, sem floreios.">
+          <DCArtboard id="v1-desktop" label="Desktop · 1440px" width={1440} height={3800}>
+            <LandingV1 {...props} />
+          </DCArtboard>
+          <DCArtboard id="v1-mobile" label="Mobile · 390px" width={390} height={3600}>
+            <LandingV1 {...props} density="compact" />
+          </DCArtboard>
+        </DCSection>
+
+        <DCSection id="v2" title="Variação 2 — Editorial" subtitle="Pegada de jornal jurídico: Playfair em destaque, masthead, drop cap, índice numerado, régua dupla.">
+          <DCArtboard id="v2-desktop" label="Desktop · 1440px" width={1440} height={4400}>
+            <LandingV2 {...props} />
+          </DCArtboard>
+          <DCArtboard id="v2-mobile" label="Mobile · 390px" width={390} height={4200}>
+            <LandingV2 {...props} density="compact" />
+          </DCArtboard>
+        </DCSection>
+
+        <DCSection id="v3" title="Variação 3 — Bold / Asimétrico" subtitle="Hero navy fullbleed, mockup flutuante, stats, tiles grandes alternando lado, mais cor — ainda na gramática Advvia (sem gradient/blur).">
+          <DCArtboard id="v3-desktop" label="Desktop · 1440px" width={1440} height={4800}>
+            <LandingV3 {...props} />
+          </DCArtboard>
+          <DCArtboard id="v3-mobile" label="Mobile · 390px" width={390} height={4600}>
+            <LandingV3 {...props} density="compact" />
+          </DCArtboard>
+        </DCSection>
+      </DesignCanvas>
+
+      <TweaksPanel title="Tweaks">
+        <TweakSection title="Visual">
+          <TweakRadio label="Cor de destaque" value={tweaks.accent} onChange={v => setTweak('accent', v)}
+            options={[
+              { value: 'navy', label: 'Navy' },
+              { value: 'laranja', label: 'Laranja' },
+              { value: 'verde', label: 'Verde' },
+            ]}
+          />
+          <TweakRadio label="Densidade" value={tweaks.density} onChange={v => setTweak('density', v)}
+            options={[
+              { value: 'comfortable', label: 'Arejada' },
+              { value: 'compact', label: 'Compacta' },
+            ]}
+          />
+          <TweakRadio label="Hero" value={tweaks.heroVariant} onChange={v => setTweak('heroVariant', v)}
+            options={[
+              { value: 'mockup', label: 'Mockup' },
+              { value: 'screenshot', label: 'Screenshot' },
+              { value: 'text', label: 'Só texto' },
+            ]}
+          />
+        </TweakSection>
+
+        <TweakSection title="Seções">
+          <TweakToggle label="Hero" checked={tweaks.showHero} onChange={v => setTweak('showHero', v)} />
+          <TweakToggle label="Demonstração do produto" checked={tweaks.showProduct} onChange={v => setTweak('showProduct', v)} />
+          <TweakToggle label="Funcionalidades" checked={tweaks.showFeatures} onChange={v => setTweak('showFeatures', v)} />
+          <TweakToggle label="Como funciona" checked={tweaks.showHow} onChange={v => setTweak('showHow', v)} />
+          <TweakToggle label="Preços" checked={tweaks.showPricing} onChange={v => setTweak('showPricing', v)} />
+          <TweakToggle label="Segurança / LGPD" checked={tweaks.showSecurity} onChange={v => setTweak('showSecurity', v)} />
+          <TweakToggle label="CTA final" checked={tweaks.showCta} onChange={v => setTweak('showCta', v)} />
+        </TweakSection>
+      </TweaksPanel>
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

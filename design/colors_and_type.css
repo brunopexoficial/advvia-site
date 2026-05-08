@@ -1,0 +1,295 @@
+/* ==========================================================================
+   Advvia — Design Tokens
+   Base type + color primitives, plus semantic element styles.
+   Import with:  <link rel="stylesheet" href="colors_and_type.css">
+   ========================================================================== */
+
+/* -------- Fonts (Google Fonts) --------------------------------------------
+   Playfair Display — display / serif (used for timeline dates, fundamento
+   section titles, occasional hero numerals).
+   Source Sans 3    — body + UI (weights 300, 400, 600, plus 300 italic).
+   -------------------------------------------------------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;1,300&display=swap');
+
+:root {
+  /* ====== COLOR PRIMITIVES ================================================
+     Names mirror the original Portuguese tokens from the product stylesheet
+     (--azul, --laranja, etc) so code ported from the app keeps working.
+     Aliased English names are provided next to each for new work. */
+
+  /* Navy — primary brand color, used for headers, primary buttons, timeline
+     "fatual" (fact) events, and focus rings. */
+  --azul:          #1a3a5c;   /* --primary        */
+  --azul-med:      #2a5a8c;   /* --primary-hover  */
+  --azul-claro:    #e8f1f8;   /* --primary-tint   (10–12% tint) */
+
+  /* Orange — accent color. Drives "pendências" (pending tasks),
+     env badges, and the vertical logo dot. */
+  --laranja:       #c46000;   /* --accent         */
+  --laranja-clr:   #f7ede4;   /* --accent-tint    */
+
+  /* Green — "processual" / processos (procedural events, legal cases). */
+  --verde:         #1a6040;   /* --success        */
+  --verde-clr:    #e8f4ee;    /* --success-tint   */
+
+  /* Red — destructive / critical / "destaque" highlighted events. */
+  --vermelho:      #8c1a1a;   /* --danger         */
+  --verm-clr:      #f9eaea;   /* --danger-tint    */
+
+  /* Purple — "arquivos" (files/documents). */
+  --roxo:          #4a1a7a;   /* --archive        */
+  --roxo-clr:      #f0e8f9;   /* --archive-tint   */
+
+  /* Neutrals — cinza = gray, branco = the off-white canvas background. */
+  --cinza:         #5a6470;   /* --muted          */
+  --cinza-clr:     #f0f2f4;   /* --muted-tint     */
+  --branco:        #fafbfc;   /* --bg             */
+  --texto:         #1c2730;   /* --fg             */
+  --linha:         #c8d8e8;   /* --border         (cool bluish border) */
+
+  /* Aliases (English, semantic). Prefer these in new code. */
+  --primary:       var(--azul);
+  --primary-hover: var(--azul-med);
+  --primary-tint:  var(--azul-claro);
+  --accent:        var(--laranja);
+  --accent-tint:   var(--laranja-clr);
+  --success:       var(--verde);
+  --success-tint:  var(--verde-clr);
+  --danger:        var(--vermelho);
+  --danger-tint:   var(--verm-clr);
+  --archive:       var(--roxo);
+  --archive-tint:  var(--roxo-clr);
+  --muted:         var(--cinza);
+  --muted-tint:    var(--cinza-clr);
+  --bg:            var(--branco);
+  --fg:            var(--texto);
+  --border:        var(--linha);
+
+  /* Foreground tiers — for body copy, captions, disabled, inverse. */
+  --fg-1: #1c2730;             /* primary text */
+  --fg-2: #2c3840;             /* body copy, slightly softer */
+  --fg-3: #5a6470;             /* captions, metadata */
+  --fg-muted: rgba(28,39,48,.55);
+  --fg-on-dark: #ffffff;
+  --fg-on-dark-muted: rgba(255,255,255,.55);
+  --fg-on-dark-faint: rgba(255,255,255,.25);
+
+  /* Surfaces */
+  --surface:        #ffffff;   /* cards, sheets */
+  --surface-alt:    #fafbfc;   /* page background */
+  --surface-tint:   #f0f2f4;   /* subtle fills, disabled */
+
+  /* ====== TYPOGRAPHY ===================================================== */
+  --font-serif:  'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-sans:   'Source Sans 3', -apple-system, BlinkMacSystemFont,
+                 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-mono:   ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+  /* Base body is 300 (light) — a distinctive Advvia choice. */
+  --fw-light:    300;
+  --fw-regular:  400;
+  --fw-semibold: 600;
+  --fw-bold:     700;
+
+  /* Scale, in px, tuned to match the product. Keep numbers from the CSS. */
+  --fs-11: 11px;   /* micro labels (versão, caption) */
+  --fs-12: 12px;   /* badge text, meta              */
+  --fs-13: 13px;   /* small form labels             */
+  --fs-14: 14px;   /* secondary body                */
+  --fs-15: 15px;   /* UI text                       */
+  --fs-16: 16px;   /* body default                  */
+  --fs-17: 17px;   /* medium body (timeline refs)   */
+  --fs-18: 18px;   /* larger body                   */
+  --fs-19: 19px;   /* emphasis body (descrição)     */
+  --fs-20: 20px;   /* card title                    */
+  --fs-22: 22px;   /* header caso-nome              */
+  --fs-23: 23px;   /* fundamento H3                 */
+  --fs-29: 29px;   /* timeline date day (serif)     */
+
+  /* Tracking — Advvia loves UPPERCASE MICRO-LABELS with wide letter-spacing. */
+  --tracking-tight:  -0.01em;
+  --tracking-base:   0em;
+  --tracking-label:  0.08em;   /* 1–1.2px @ 14–15px */
+  --tracking-micro:  0.18em;   /* the 2–3px label style */
+
+  /* Line heights */
+  --lh-tight: 1.25;
+  --lh-snug:  1.35;
+  --lh-body:  1.6;
+  --lh-read:  1.7;             /* long descrições */
+
+  /* ====== SHAPE & ELEVATION ============================================== */
+  --radius-xs:  3px;           /* evento-num pill     */
+  --radius-sm:  4px;           /* small inputs, tags  */
+  --radius-md:  6px;           /* buttons, inputs     */
+  --radius-lg:  8px;           /* cards               */
+  --radius-xl:  10px;          /* big panels, modals  */
+  --radius-2xl: 14px;          /* hero modals         */
+  --radius-pill: 50px;         /* pill buttons, FAB   */
+  --radius-round: 50%;         /* avatars, bolinha    */
+
+  --border-width: 1.5px;       /* Advvia's signature slightly-thicker border */
+
+  /* Shadows — the product mostly uses a single soft drop + a heavier modal
+     shadow. Inset shadows are NOT used. */
+  --shadow-header: 0 1px 4px rgba(0,0,0,0.20);
+  --shadow-sticky: 0 2px 8px rgba(0,0,0,0.06);
+  --shadow-card:   0 4px 16px rgba(0,0,0,0.08);
+  --shadow-popup:  0 6px 22px rgba(0,0,0,0.11);
+  --shadow-modal:  0 8px 32px rgba(0,0,0,0.18);
+  --shadow-fab:    0 4px 18px rgba(0,0,0,0.28);
+  --shadow-destaque: 0 4px 20px rgba(192,57,43,0.15);
+
+  /* ====== SPACING (4 / 8 pt grid) ========================================= */
+  --sp-0:   0;
+  --sp-1:   4px;
+  --sp-2:   8px;
+  --sp-3:   12px;
+  --sp-4:   16px;
+  --sp-5:   20px;
+  --sp-6:   24px;
+  --sp-8:   32px;
+  --sp-10: 40px;
+  --sp-12: 48px;
+  --sp-16: 64px;
+  --sp-20: 80px;
+
+  /* ====== MOTION ========================================================= */
+  --ease-std:  cubic-bezier(.2,.0,.2,1);
+  --ease-out:  cubic-bezier(.2,.8,.2,1);
+  --dur-fast:  120ms;
+  --dur-base:  180ms;
+  --dur-med:   250ms;
+  --dur-slow:  350ms;
+
+  /* ====== LAYOUT ========================================================= */
+  --content-max: 900px;        /* timeline column width */
+  --header-h:    60px;
+  --filters-h:   60px;
+  --z-header:    200;
+  --z-sticky:    100;
+  --z-dropdown:  300;
+  --z-modal:     1000;
+  --z-toast:     2000;
+}
+
+/* ============================================================================
+   ELEMENT DEFAULTS
+   ========================================================================== */
+html { box-sizing: border-box; }
+*, *::before, *::after { box-sizing: inherit; }
+
+body {
+  font-family: var(--font-sans);
+  font-weight: var(--fw-light);       /* DISTINCTIVE: body is light (300) */
+  font-size: var(--fs-16);
+  line-height: var(--lh-body);
+  color: var(--fg);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Headings — sans by default. The ONLY places the product reaches for
+   Playfair are: timeline day numerals, fundamento-box H3. Use .display-serif
+   or style an element explicitly. */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-sans);
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-snug);
+  color: var(--fg);
+}
+h1 { font-size: 28px; }
+h2 { font-size: 22px; }
+h3 { font-size: var(--fs-20); }
+h4 { font-size: var(--fs-17); }
+h5 { font-size: var(--fs-14); }
+h6 { font-size: var(--fs-13); }
+
+p  { font-size: var(--fs-16); line-height: var(--lh-read); color: var(--fg-2); font-weight: var(--fw-light); }
+small { font-size: var(--fs-13); color: var(--fg-3); }
+strong, b { font-weight: var(--fw-semibold); }
+
+a {
+  color: var(--primary-hover);
+  text-decoration: none;
+  transition: color var(--dur-fast);
+}
+a:hover { color: var(--primary); text-decoration: underline; }
+
+code, kbd, pre, samp {
+  font-family: var(--font-mono);
+  font-size: 0.95em;
+  background: var(--muted-tint);
+  padding: 1px 5px;
+  border-radius: var(--radius-xs);
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: var(--sp-6) 0;
+}
+
+::selection { background: var(--primary-tint); color: var(--primary); }
+
+/* ============================================================================
+   SEMANTIC TEXT CLASSES
+   These match specific patterns found throughout the product. Use them
+   instead of hand-rolling font-size + weight combos.
+   ========================================================================== */
+
+/* Display (serif) — timeline day numerals, fundamento box titles. */
+.display-serif {
+  font-family: var(--font-serif);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-tight);
+  color: var(--primary);
+}
+.display-xl { font-family: var(--font-serif); font-weight: var(--fw-bold); font-size: 44px; line-height: 1.1; color: var(--primary); }
+.display-lg { font-family: var(--font-serif); font-weight: var(--fw-bold); font-size: var(--fs-29); line-height: 1; color: var(--primary); }
+.display-md { font-family: var(--font-serif); font-weight: var(--fw-bold); font-size: var(--fs-23); line-height: 1.2; color: var(--primary); }
+
+/* Body styles. */
+.body-lg  { font-size: var(--fs-19); line-height: var(--lh-read); font-weight: var(--fw-light); color: var(--fg-2); }
+.body-md  { font-size: var(--fs-17); line-height: var(--lh-body); font-weight: var(--fw-light); color: var(--fg-2); }
+.body-sm  { font-size: var(--fs-15); line-height: var(--lh-body); font-weight: var(--fw-light); color: var(--fg-2); }
+.body-xs  { font-size: var(--fs-13); line-height: var(--lh-body); color: var(--fg-3); }
+
+/* Titles (on cards, sheets, etc). */
+.title-lg { font-size: var(--fs-20); font-weight: var(--fw-semibold); line-height: var(--lh-snug); color: var(--fg); }
+.title-md { font-size: var(--fs-19); font-weight: var(--fw-bold);     line-height: var(--lh-snug); color: var(--primary); }
+.title-sm { font-size: var(--fs-15); font-weight: var(--fw-semibold); line-height: var(--lh-snug); color: var(--fg); }
+
+/* Labels — THE signature Advvia micro-label. Uppercase + wide tracking. */
+.label-xl {
+  font-size: var(--fs-16); font-weight: var(--fw-semibold);
+  letter-spacing: var(--tracking-micro); text-transform: uppercase;
+  color: var(--muted);
+}
+.label-lg {
+  font-size: var(--fs-14); font-weight: var(--fw-bold);
+  letter-spacing: var(--tracking-micro); text-transform: uppercase;
+  color: var(--muted);
+}
+.label-md {
+  font-size: var(--fs-13); font-weight: var(--fw-bold);
+  letter-spacing: var(--tracking-micro); text-transform: uppercase;
+  color: var(--muted);
+}
+.label-sm {
+  font-size: var(--fs-11); font-weight: var(--fw-bold);
+  letter-spacing: var(--tracking-label); text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* Tabular numerals for case numbers, dates, counters. */
+.num-tab { font-variant-numeric: tabular-nums; }
+
+/* Italic caption ("seu@email.com" style, descriptive footnotes). */
+.caption-italic {
+  font-style: italic;
+  font-size: var(--fs-13);
+  color: var(--fg-3);
+  font-weight: var(--fw-light);
+}
